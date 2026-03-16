@@ -2,7 +2,7 @@
 /web-ext-artifacts/
 sign.sh
 /res/
-.dat
-.cmd
-.py
-.txt
+*.dat
+*.cmd
+*.py
+*.txt
