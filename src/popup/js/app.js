@@ -110,7 +110,7 @@
                     staticClass: "volume-slider__slider",
                     attrs: {id: "volume-slider", type: "range", min: "0", max: "600", step: "10", autofocus: ""},
                     domProps: {value: t.$parent.soundVolume},
-                    on: {change: t.$parent.soundValueChangeHandler}
+                    on: {input: t.$parent.soundValueInputHandler, change: t.$parent.soundValueChangeHandler}
                 })]), n("section", {staticClass: "volume-info"}, [n("span", {staticClass: "volume-info__volume-min"}, [t._v("0 %")]), n("span", {staticClass: "volume-info__volume-current"}, [t._v(t._s(t.$t("volumeLabel")) + " " + t._s(t.$parent.soundVolume) + " %")]), n("span", {staticClass: "volume-info__volume-max"}, [t._v("600 %")])]), n("section", {staticClass: "tabs"}, [t.$parent.audibleTabs.length ? n("div", {staticClass: "tabs__title"}, [t._v(t._s(t.$t("tabsLabel")))]) : n("div", {staticClass: "tabs__title"}, [t._v(t._s(t.$t("noTabsLabel")))]), t._l(t.$parent.audibleTabs, (function (e) {
                     return n("div", {key: e.id, staticClass: "tabs__list"}, [n("a", {
                         staticClass: "tab",
@@ -202,8 +202,13 @@
                     }))
                 }, setSoundVolume: function (t) {
                     this.soundVolume = t
+                }, soundValueInputHandler: function (t) {
+                    var e = this;
+                    this.setSoundVolume(t.target.value), clearTimeout(this._volumeInputTimeout), this._volumeInputTimeout = setTimeout((function () {
+                        e.sendToActiveTab("changeSoundVolume")
+                    }), 10)
                 }, soundValueChangeHandler: function (t) {
-                    this.setSoundVolume(t.target.value), this.sendToActiveTab("changeSoundVolume")
+                    this.setSoundVolume(t.target.value), clearTimeout(this._volumeInputTimeout), this._volumeInputTimeout = null, this.sendToActiveTab("changeSoundVolume")
                 }, button100ClickHandler: function () {
                     this.setSoundVolume(100), this.sendToActiveTab("changeSoundVolume")
                 }, buttonMuteClickHandler: function () {
